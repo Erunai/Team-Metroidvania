@@ -135,4 +135,9 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("Hurt");
         rb.linearVelocity = new Vector2(knockBackForceX * -transform.localScale.x, knockBackForceY);
     }
+
+    public void PlayerDeath()
+    {
+        animator.SetTrigger("Death");
+    }
 }

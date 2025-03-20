@@ -15,6 +15,8 @@ public class PlayerHealthController : MonoBehaviour
 
     private SpriteRenderer sr;
 
+    public GameObject deathAnimation;
+
     private void Awake()
     {
         instance = this;
@@ -51,7 +53,11 @@ public class PlayerHealthController : MonoBehaviour
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
-                gameObject.SetActive(false);
+
+                GameObject deathAnim = Instantiate(deathAnimation, transform.position, transform.rotation);
+                deathAnim.transform.localScale = transform.localScale;
+
+                LevelManager.instance.RespawnPlayer();
             }
             else
             {
