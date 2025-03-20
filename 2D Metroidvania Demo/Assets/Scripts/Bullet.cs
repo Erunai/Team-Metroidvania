@@ -32,11 +32,13 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("Bullet Hit!");
-        // Send message to damage player if collision.tag == "Player"
+
+        PlayerHealthController.instance.DamagePlayer();
 
         Destroy(gameObject);
+        Debug.Log("Bullet Destroyed");
     }
 }

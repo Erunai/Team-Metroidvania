@@ -51,7 +51,7 @@ public class MovingPlatform : MonoBehaviour
     {
         if (collision.tag.Equals("Player"))
         {
-            collision.gameObject.transform.parent = null;
+            collision.gameObject.transform.parent = null; 
         }
     }
 }

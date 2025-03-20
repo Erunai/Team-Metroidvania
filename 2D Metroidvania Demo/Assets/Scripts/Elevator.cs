@@ -83,7 +83,7 @@ public class Elevator : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Player"))
         {
-            // Set collider object's parent to be this game object
+            // De-parent gameobject
             collision.gameObject.transform.parent = null;
             charIsOn = false;
         }

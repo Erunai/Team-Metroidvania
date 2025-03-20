@@ -551,7 +551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpawnPoint: {fileID: 9163030740607863621}
   bullet: {fileID: 4720982873691732446, guid: d6a78e44502be1e4db5c2a77fe1eee18, type: 3}
-  spawnTimer: 5
+  spawnTimer: 1
 --- !u!1 &7013670758884376503
 GameObject:
   m_ObjectHideFlags: 0
