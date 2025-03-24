@@ -17,6 +17,7 @@ public class PlayerHealthController : MonoBehaviour
 
     public GameObject deathAnimation;
 
+
     private void Awake()
     {
         instance = this;

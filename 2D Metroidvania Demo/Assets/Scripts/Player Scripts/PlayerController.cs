@@ -30,6 +30,10 @@ public class PlayerController : MonoBehaviour
 
     private Animator animator;
 
+    public bool isPaused;
+
+    public PauseManager pauseManager;
+
     private void Awake()
     {
         instance = this;
@@ -42,6 +46,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (pauseManager.isPaused)
+        {
+            return;
+        }
         if (knockBackCounter <= 0)
         {
             horizontal = Input.GetAxisRaw("Horizontal"); // Returns the value of -1, 0 or +1, depending on the move direction input (A, D, left-arrow, right-arrow)
