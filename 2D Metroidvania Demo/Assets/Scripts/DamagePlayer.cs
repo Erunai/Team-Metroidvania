@@ -2,23 +2,22 @@ using UnityEngine;
 
 public class DamagePlayer : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public bool onlyDamageOnce = true;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag.Equals("Player"))
         {
             Debug.Log("Player Hit");
+            PlayerHealthController.instance.DamagePlayer();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.tag.Equals("Player") && !onlyDamageOnce)
+        {
             PlayerHealthController.instance.DamagePlayer();
         }
     }
