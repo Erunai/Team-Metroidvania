@@ -166,6 +166,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Dash()
     {
+        transform.parent = null; // Remove parent to prevent player from moving with moving platforms
         Debug.Log("Dash");
         canDash = false;
         isDashing = true;
