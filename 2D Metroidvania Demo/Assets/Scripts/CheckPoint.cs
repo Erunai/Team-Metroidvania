@@ -10,6 +10,7 @@ public class CheckPoint : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            Debug.Log("New checkpoint activated");
             CheckPointController.instance.DeactivateCheckPoints();
 
             // Activate checkpoint -- Once we get visual feedback, we can implement this method

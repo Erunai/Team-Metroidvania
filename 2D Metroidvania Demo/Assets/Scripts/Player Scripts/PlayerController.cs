@@ -63,11 +63,11 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        if (knockBackCounter <= 0)
+        if (knockBackCounter <= 0) // TODO: Make this an IEnumerator
         {
             horizontal = Input.GetAxisRaw("Horizontal"); // Returns the value of -1, 0 or +1, depending on the move direction input (A, D, left-arrow, right-arrow)
 
-            if (Input.GetKeyDown(KeyCode.Space) && isGrounded())
+            if (Input.GetKeyDown(KeyCode.Space) && isGrounded()) // Jump
             {
                 Debug.Log("Jump");
                 rb.AddForce(new Vector2(rb.linearVelocityX, jumpingPower), ForceMode2D.Impulse);
@@ -86,28 +86,22 @@ public class PlayerController : MonoBehaviour
                 animator.SetInteger("AnimState", 0);
             }
 
-            if (Input.GetKeyUp(KeyCode.Space))
+            if (Input.GetKeyUp(KeyCode.Space)) // Check if player is still holding the jump button
             {
                 isJumping = false;
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
-            {
-                StartCoroutine(Dash());
-                return;
-            }
-
-            if (!isJumping && !isGrounded() && rb.linearVelocityY > 0 && !velocityHalfed)
+            if (!isJumping && !isGrounded() && rb.linearVelocityY > 0 && !velocityHalfed) // Half velocity when player releases jump button
             {
                 rb.linearVelocityY = rb.linearVelocityY * 0.5f;
                 velocityHalfed = true;
             }
 
-            if ((!isJumping && !isGrounded() || rb.linearVelocityY < 0))
+            if ((!isJumping && !isGrounded() || rb.linearVelocityY < 0)) // Increase gravity when player is falling
             {
                 rb.gravityScale = Mathf.Clamp(rb.gravityScale * 1.008f, normalGrav, maxGrav);
             }
-            else
+            else // Reset gravity to normal when player is grounded
             {
                 rb.gravityScale = normalGrav;
             }
@@ -125,6 +119,13 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = new Vector2(horizontal * speed, rb.linearVelocityY);
 
             animator.SetFloat("AirSpeedY", rb.linearVelocityY - Mathf.Epsilon);
+
+
+            if (Input.GetKeyDown(KeyCode.LeftShift) && canDash) // Dash
+            {
+                StartCoroutine(Dash());
+                return; // Exit Update() to prevent movement or reset gravity during dash
+            }
 
             flip();
         }
@@ -165,6 +166,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Dash()
     {
+        Debug.Log("Dash");
         canDash = false;
         isDashing = true;
         float currentGrav = rb.gravityScale;

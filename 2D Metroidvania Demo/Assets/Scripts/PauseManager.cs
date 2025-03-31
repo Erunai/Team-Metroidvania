@@ -50,6 +50,7 @@ public class PauseManager : MonoBehaviour
 
     public void QuitGame()
     {
+        Debug.Log("Application Quit");
         Application.Quit();
     }
 

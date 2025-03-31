@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Elevator
+  - Wall
   layers:
   - Default
   - TransparentFX
