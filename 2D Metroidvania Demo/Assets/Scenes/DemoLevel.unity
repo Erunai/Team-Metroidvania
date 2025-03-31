@@ -4603,9 +4603,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
+      propertyPath: dashingTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
+      propertyPath: dashingPower
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: pauseManager
       value: 
       objectReference: {fileID: 1180017149}
+    - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
+      propertyPath: dashingCooldown
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7397338280743717393, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: healthBar
       value: 

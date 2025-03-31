@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -6,6 +7,7 @@ public class PlayerController : MonoBehaviour
 
     private float horizontal;
 
+    [Header("Movement Speed")]
     public float speed = 8f;
     public float jumpingPower = 16f;
 
@@ -14,19 +16,28 @@ public class PlayerController : MonoBehaviour
     private bool isJumping;
 
     [Space]
+    [Header("Dash")]
+    [SerializeField] float dashingPower = 20f;
+    [SerializeField] float dashingTime = 1f;
+    [SerializeField] float dashingCooldown = 0.5f;
+    private bool isDashing;
+    private bool canDash;
 
+    [Space]
+    [Header("KnockBack")]
     [SerializeField] float knockBackTimer = 1f;
     [SerializeField] float knockBackForceY;
     [SerializeField] float knockBackForceX;
     private float knockBackCounter;
 
     [Space]
-
+    [Header("Misc")]
     [SerializeField] Rigidbody2D rb;
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] float groundCheckRadius = 0.3f;
     [SerializeField] float maxGrav = 5f;
+    [SerializeField] float normalGrav = 3f;
 
     private Animator animator;
 
@@ -41,12 +52,14 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>(); // -- TODO: Set up animation
+        canDash = true;
+        isDashing = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (pauseManager.isPaused)
+        if (pauseManager.isPaused || isDashing)
         {
             return;
         }
@@ -78,6 +91,12 @@ public class PlayerController : MonoBehaviour
                 isJumping = false;
             }
 
+            if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+            {
+                StartCoroutine(Dash());
+                return;
+            }
+
             if (!isJumping && !isGrounded() && rb.linearVelocityY > 0 && !velocityHalfed)
             {
                 rb.linearVelocityY = rb.linearVelocityY * 0.5f;
@@ -86,11 +105,11 @@ public class PlayerController : MonoBehaviour
 
             if ((!isJumping && !isGrounded() || rb.linearVelocityY < 0))
             {
-                rb.gravityScale = Mathf.Clamp(rb.gravityScale * 1.008f, 3f, maxGrav);
+                rb.gravityScale = Mathf.Clamp(rb.gravityScale * 1.008f, normalGrav, maxGrav);
             }
             else
             {
-                rb.gravityScale = 3f;
+                rb.gravityScale = normalGrav;
             }
 
             if (isGrounded())
@@ -113,11 +132,6 @@ public class PlayerController : MonoBehaviour
         {
             knockBackCounter -= Time.deltaTime;
         }
-    }
-
-    private void FixedUpdate()
-    {
-        
     }
 
     private void flip() // Flip player (gameobject) scale on the x axis to flip direction
@@ -147,5 +161,19 @@ public class PlayerController : MonoBehaviour
     public void PlayerDeath()
     {
         animator.SetTrigger("Death");
+    }
+
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        float currentGrav = rb.gravityScale;
+        rb.gravityScale = 0f;
+        rb.linearVelocity = new Vector2(transform.localScale.x * dashingPower, 0f);
+        yield return new WaitForSeconds(dashingTime);
+        rb.gravityScale = currentGrav;
+        isDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
     }
 }
