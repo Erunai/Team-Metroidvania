@@ -74,4 +74,12 @@ public class PlayerHealthController : MonoBehaviour
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Hazard")
+        {
+            DamagePlayer();
+        }
+    }
 }

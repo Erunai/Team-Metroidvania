@@ -20,8 +20,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float dashingPower = 20f;
     [SerializeField] float dashingTime = 1f;
     [SerializeField] float dashingCooldown = 0.5f;
-    private bool isDashing;
-    private bool canDash;
+    [HideInInspector] public bool isDashing;
+    [HideInInspector] public bool canDash;
 
     [Space]
     [Header("KnockBack")]

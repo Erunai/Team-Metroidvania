@@ -45,4 +45,15 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        // For when player dashes into a bullet from behind
+        if (collision.gameObject.tag.Equals("Player"))
+        {
+            Debug.Log("Bullet Hit Player");
+            PlayerHealthController.instance.DamagePlayer();
+        }
+        Destroy(gameObject);
+    }
+
 }

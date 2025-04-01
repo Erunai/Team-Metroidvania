@@ -4604,11 +4604,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: dashingTime
-      value: 0.1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: dashingPower
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: pauseManager
@@ -4622,6 +4622,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 1000527838}
+    - target: {fileID: 7397338280743717393, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
+      propertyPath: maxHealth
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
