@@ -55,9 +55,20 @@ public class PlayerHealthController : MonoBehaviour
             {
                 currentHealth = 0;
 
-                GameObject deathAnim = Instantiate(deathAnimation, transform.position, transform.rotation);
+                // Fix the Z axis of the death animation to be either -1 or 1
+                // depending on the direction the player is facing
+                float zRotation = transform.rotation.eulerAngles.z;
+                if (zRotation > 0)
+                {
+                    zRotation = -1;
+                }
+                else
+                {
+                    zRotation = 1;
+                }
+                GameObject deathAnim = Instantiate(deathAnimation, transform.position, Quaternion.Euler(new Vector3(transform.rotation.x, transform.rotation.y, zRotation)));
                 deathAnim.transform.localScale = transform.localScale;
-
+                
                 LevelManager.instance.RespawnPlayer();
             }
             else
@@ -81,5 +92,11 @@ public class PlayerHealthController : MonoBehaviour
         {
             DamagePlayer();
         }
+    }
+
+    public void SetHealth(int health)
+    {
+        currentHealth = health;
+        healthBar.SetHealth(currentHealth);
     }
 }

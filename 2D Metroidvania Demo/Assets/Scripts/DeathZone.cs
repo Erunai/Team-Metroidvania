@@ -6,6 +6,7 @@ public class DeathZone : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            PlayerHealthController.instance.SetHealth(0); // Also updates UI
             LevelManager.instance.RespawnPlayer();
         }
     }

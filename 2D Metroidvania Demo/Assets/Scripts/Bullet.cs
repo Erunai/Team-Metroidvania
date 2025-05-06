@@ -6,10 +6,11 @@ public class Bullet : MonoBehaviour
     public float lifeTime = 5f;
 
     private bool moveLeft;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        moveLeft = transform.rotation.z != 90f;
+        moveLeft = transform.rotation.z != 90f; // If the bullet is rotated 90 degrees, it is moving left, otherwise it will move right
     }
 
     private void Update()
@@ -35,25 +36,22 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //Debug.Log("Bullet hit: " + collision.tag);
-        if (collision.CompareTag("Player"))
-        {
-            Debug.Log("Bullet Hit Player");
-            PlayerHealthController.instance.DamagePlayer();
-            
-        }
-        //Debug.Log("Bullet Destroyed");
-        Destroy(gameObject);
+        PlayerHit(collision.tag);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // For when player dashes into a bullet from behind
-        if (collision.gameObject.tag.Equals("Player"))
+        // For when player moved into a bullet from behind
+        PlayerHit(collision.gameObject.tag);
+    }
+
+    void PlayerHit(string collisionTag)
+    {
+        if (collisionTag.Equals("Player"))
         {
             Debug.Log("Bullet Hit Player");
             PlayerHealthController.instance.DamagePlayer();
         }
         Destroy(gameObject);
     }
-
 }

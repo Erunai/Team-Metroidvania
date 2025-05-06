@@ -61,21 +61,31 @@ public class Elevator : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, moveToPos, moveSpeed * Time.deltaTime);
         }
+
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (reachedPos)
-        {
-            delayCounter = delayTimer;
-            moveToPos = moveToPos == startPos ? targetPos : startPos;
-            reachedPos = false;
-        }
+
+        
         if (collision.gameObject.tag.Equals("Player"))
         {
+            if (reachedPos)
+            {
+                delayCounter = delayTimer;
+                moveToPos = moveToPos == startPos ? targetPos : startPos;
+                reachedPos = false;
+            }
+
+            Debug.Log("Player hit Elevator");
             // Set collider object's parent to be this game object
             collision.gameObject.transform.parent = transform;
             charIsOn = true;
+        }
+        else
+        {
+            Debug.Log("Something else hit Elevator");
         }
     }
 
@@ -83,9 +93,14 @@ public class Elevator : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("Player"))
         {
+            Debug.Log("Player hit Elevator");
             // De-parent gameobject
             collision.gameObject.transform.parent = null;
             charIsOn = false;
+        }
+        else
+        {
+            Debug.Log("Something else hit Elevator");
         }
     }
 }

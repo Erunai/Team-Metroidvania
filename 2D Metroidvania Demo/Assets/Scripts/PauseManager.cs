@@ -5,6 +5,7 @@ public class PauseManager : MonoBehaviour
     public static PauseManager instance;
 
     public GameObject pauseMenu;
+    public GameObject settingsMenu;
 
     public bool isPaused = false;
 
@@ -17,6 +18,7 @@ public class PauseManager : MonoBehaviour
     {
         Time.timeScale = 1;
         pauseMenu.SetActive(false);
+        settingsMenu.SetActive(false);
     }
 
     // Update is called once per frame
@@ -56,7 +58,8 @@ public class PauseManager : MonoBehaviour
 
     public void OpenSettings()
     {
-        Debug.Log("Settings menu");
+        pauseMenu.SetActive(false);
+        settingsMenu.SetActive(true);
     }
 
     public void QuitToMenu()

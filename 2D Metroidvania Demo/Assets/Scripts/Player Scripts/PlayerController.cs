@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // TODO: Refactor code
+
     public static PlayerController instance;
 
     private float horizontal;
@@ -14,6 +16,17 @@ public class PlayerController : MonoBehaviour
     private bool isFacingRight = true;
     private bool velocityHalfed = false;
     private bool isJumping;
+
+    [Space]
+    [Header("Attacking")]
+    // [SerializeField] float attackDamage = 1f; // maybe add this later
+    // [SerializeField] float attackSpeed = 1f; // maybe add this later
+    private float attackCounter = 0f;
+    [SerializeField] float attackCoolDown = 0.5f;
+    private float attackCoolDownCounter;
+    [SerializeField] float comboTimer = 1.0f; // Time between attacks for combo animation
+    private float comboTimerCounter;
+    //private bool isAttacking; // maybe ? -- Maybe use to see if a player can dash
 
     [Space]
     [Header("Dash")]
@@ -54,11 +67,24 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>(); // -- TODO: Set up animation
         canDash = true;
         isDashing = false;
+        attackCoolDownCounter = attackCoolDown;
+        comboTimerCounter = comboTimer;
+        attackCounter = 0;
+        //isAttacking = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (attackCoolDownCounter > 0)
+        {
+            attackCoolDownCounter -= Time.deltaTime;
+        }
+        if (comboTimerCounter > 0)
+        {
+            comboTimerCounter -= Time.deltaTime;
+        }
+
         if (pauseManager.isPaused || isDashing)
         {
             return;
@@ -69,7 +95,7 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Space) && isGrounded()) // Jump
             {
-                Debug.Log("Jump");
+                Debug.Log("Player Jump");
                 rb.AddForce(new Vector2(rb.linearVelocityX, jumpingPower), ForceMode2D.Impulse);
                 isJumping = true;
                 velocityHalfed = false;
@@ -86,6 +112,31 @@ public class PlayerController : MonoBehaviour
                 animator.SetInteger("AnimState", 0);
             }
 
+            if (Input.GetKeyDown(KeyCode.Mouse0) && attackCoolDownCounter < 0)
+            {
+                if (comboTimerCounter <= 0) // If player is still in combo timer, reset attackCounter
+                {
+                    attackCounter = 0;
+                }
+                // isAttacking = true; -- Is this needed? Maybe I swap comboTimerCounter > 0 for a bool saying canAttack
+                // Attack:
+                if (attackCounter % 3 == 0)
+                {
+                    animator.SetTrigger("Attack1");
+                }
+                else if ((attackCounter % 3 == 1) && comboTimerCounter > 0)
+                {
+                    animator.SetTrigger("Attack2");
+                }
+                else if ((attackCounter % 3 ==  2) && comboTimerCounter > 0)
+                {
+                    animator.SetTrigger("Attack3");
+                }
+                attackCoolDownCounter = attackCoolDown;
+                comboTimerCounter = comboTimer;
+                attackCounter++;
+            }
+
             if (Input.GetKeyUp(KeyCode.Space)) // Check if player is still holding the jump button
             {
                 isJumping = false;
@@ -97,8 +148,9 @@ public class PlayerController : MonoBehaviour
                 velocityHalfed = true;
             }
 
-            if ((!isJumping && !isGrounded() || rb.linearVelocityY < 0)) // Increase gravity when player is falling
+            if ((!isJumping && !isGrounded() && rb.linearVelocityY < 0)) // Increase gravity when player is falling
             {
+                
                 rb.gravityScale = Mathf.Clamp(rb.gravityScale * 1.008f, normalGrav, maxGrav);
             }
             else // Reset gravity to normal when player is grounded
