@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // TODO: Refactor code
-
+    
     public static PlayerController instance;
 
     private float horizontal;
@@ -218,7 +218,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator Dash()
     {
-        transform.parent = null; // Remove parent to prevent player from moving with moving platforms
+        transform.parent = null; // Remove parent object in case of a moving platform
         Debug.Log("Dash");
         canDash = false;
         isDashing = true;
