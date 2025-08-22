@@ -13,7 +13,7 @@ public class ThrownProjectile : MonoBehaviour
     [SerializeField] Transform target;
     [SerializeField] LineRenderer line;
     [SerializeField] float step;
-    [SerializeField] float maxSpeed = 1f;
+    // [SerializeField] float maxSpeed = 1f; if we want velocity to be variable, we can use this
 
     [SerializeField] float attackTimer = 2f;
     private float attackCounter;

@@ -432,7 +432,7 @@ AnimatorStateMachine:
     m_Position: {x: 876, y: 288, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102940124560247288}
-    m_Position: {x: 680, y: -180, z: 0}
+    m_Position: {x: 480, y: -200, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102752457226709052}
     m_Position: {x: 130, y: -60, z: 0}
@@ -473,7 +473,7 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 790, y: 20, z: 0}
+  m_AnyStatePosition: {x: 870, y: 10, z: 0}
   m_EntryPosition: {x: -84, y: 108, z: 0}
   m_ExitPosition: {x: 1020, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -1280,6 +1280,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: Grounded
+    m_EventTreshold: 0
+  - m_ConditionMode: 2
+    m_ConditionEvent: WallSlide
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1102752457226709052}

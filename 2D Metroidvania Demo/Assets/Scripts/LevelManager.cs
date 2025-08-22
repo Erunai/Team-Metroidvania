@@ -25,10 +25,9 @@ public class LevelManager : MonoBehaviour
 
         PlayerHealthController.instance.currentHealth = PlayerHealthController.instance.maxHealth;
         PlayerHealthController.instance.healthBar.SetHealth(PlayerHealthController.instance.currentHealth);
-        if (!PlayerController.instance.canDash || PlayerController.instance.isDashing)
+        if (!PlayerController.instance.CanDash)
         {
-            PlayerController.instance.isDashing = false;
-            PlayerController.instance.canDash = true;
+            PlayerController.instance.CanDash = true;
         }
     }
 }

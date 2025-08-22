@@ -1,344 +1,131 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-    // TODO: Refactor code
-    
     public static PlayerController instance;
-
-    private float horizontal;
-
-    [Header("Movement Speed")]
+    [Header("Movement")]
     public float speed = 8f;
-    [SerializeField] float airMoveSpeed = 12f;
+    //public float airMoveSpeed = 12f;
     public float jumpingPower = 16f;
 
-    private bool isFacingRight = true;
-    private bool velocityHalfed = false;
-    private bool isJumping;
+    [Header("Attack")]
+    public float attackCoolDown = 0.5f;
+    public float comboTimer = 1f;
 
-    [Space]
-    [Header("Attacking")]
-    // [SerializeField] float attackDamage = 1f; // maybe add this later
-    // [SerializeField] float attackSpeed = 1f; // maybe add this later
-    private float attackCounter = 0f;
-    [SerializeField] float attackCoolDown = 0.5f;
-    private float attackCoolDownCounter;
-    [SerializeField] float comboTimer = 1.0f; // Time between attacks for combo animation
-    private float comboTimerCounter;
-    //private bool isAttacking; // maybe ? -- Maybe use to see if a player can dash
-
-    [Space]
     [Header("Dash")]
-    [SerializeField] float dashingPower = 20f;
-    [SerializeField] float dashingTime = 1f;
-    [SerializeField] float dashingCooldown = 0.5f;
-    [HideInInspector] public bool isDashing;
-    [HideInInspector] public bool canDash;
+    public float dashingPower = 20f;
+    public float dashingTime = 0.2f;
+    public float dashingCooldown = 0.5f;
 
-    [Space]
     [Header("KnockBack")]
-    [SerializeField] float knockBackTimer = 1f;
-    [SerializeField] float knockBackForceY;
-    [SerializeField] float knockBackForceX;
-    private float knockBackCounter;
+    public float knockBackTimer = 1f;
+    public float knockBackForceX = 5f;
+    public float knockBackForceY = 10f;
 
-    [Space]
-    [Header("Wall Sliding")]
-    [SerializeField] float wallSlideSpeed = 0.4f;
-    [SerializeField] LayerMask wallLayer;
-    [SerializeField] Transform wallCheckPoint;
-    [SerializeField] Vector2 wallCheckSize;
-    private bool isTouchingWall;
-    private bool isWallSliding;
+    [Header("Wall Mechanics")]
+    public float wallSlideSpeed = 0.4f;
+    public LayerMask wallLayer;
+    public Transform wallCheckPoint;
+    public Vector2 wallCheckSize = new Vector2(0.5f, 1f);
+    public float wallJumpForce = 18f;
+    public float wallJumpDirection = -1;
+    public Vector2 wallJumpAngle = new Vector2(1, 2);
+    public float wallJumpTimer = 0.2f;
 
-    [Space]
-    [Header("Wall Jumping")]
-    [SerializeField] float wallJumpForce = 18f;
-    [SerializeField] float wallJumpDirection = -1;
-    [SerializeField] Vector2 wallJumpAngle;
-    [SerializeField] float wallJumpTimer = 0.2f;
-    private float wallJumpCounter;
+    [Header("Ground Check")]
+    public Transform groundCheck;
+    public LayerMask groundLayer;
+    public float groundCheckRadius = 0.3f;
+    public float normalGrav = 3f;
+    public float maxGrav = 5f;
 
-    [Space]
-    [Header("Misc")]
-    [SerializeField] Rigidbody2D rb;
-    [SerializeField] Transform groundCheck;
-    [SerializeField] LayerMask groundLayer;
-    [SerializeField] float groundCheckRadius = 0.3f;
-    [SerializeField] float maxGrav = 5f;
-    [SerializeField] float normalGrav = 3f;
+    public Rigidbody2D RB { get; private set; }
+    public Animator Animator { get; private set; }
+    public bool IsFacingRight { get; set; } = true;
+    public bool CanDash { get; set; } = true;
 
+    public PlayerStateManager StateMachine { get; private set; }
 
-    bool wallSliding = false;
-    bool wallSlidingLeft = false;
+    // States
+    public PlayerIdleState IdleState { get; private set; }
+    public PlayerWalkState WalkState { get; private set; }
+    public PlayerJumpState JumpState { get; private set; }
+    public PlayerFallState FallState { get; private set; }
+    public PlayerAttackState AttackState { get; private set; }
+    public PlayerDashState DashState { get; private set; }
+    public PlayerWallSlideState WallSlideState { get; private set; }
+    public PlayerWallJumpState WallJumpState { get; private set; }
+    public PlayerKnockBackState KnockBackState { get; private set; }
+    public PlayerDeathState DeathState { get; private set; }
 
-    private Animator animator;
-
-    public bool isPaused;
-
-    public PauseManager pauseManager;
-
-
-    private bool canMove;
     private void Awake()
     {
         instance = this;
+        RB = GetComponent<Rigidbody2D>();
+        Animator = GetComponent<Animator>();
+        StateMachine = new PlayerStateManager();
+
+        IdleState = new PlayerIdleState(this, StateMachine);
+        WalkState = new PlayerWalkState(this, StateMachine);
+        JumpState = new PlayerJumpState(this, StateMachine);
+        FallState = new PlayerFallState(this, StateMachine);
+        AttackState = new PlayerAttackState(this, StateMachine);
+        DashState = new PlayerDashState(this, StateMachine);
+        WallSlideState = new PlayerWallSlideState(this, StateMachine);
+        WallJumpState = new PlayerWallJumpState(this, StateMachine);
+        KnockBackState = new PlayerKnockBackState(this, StateMachine);
+        DeathState = new PlayerDeathState(this, StateMachine);
     }
+
     private void Start()
     {
-        canMove = true;
-        animator = GetComponent<Animator>(); // -- TODO: Set up animation
-        canDash = true;
-        isDashing = false;
-        attackCoolDownCounter = attackCoolDown;
-        comboTimerCounter = comboTimer;
-        wallJumpCounter = wallJumpTimer;
-        attackCounter = 0;
-        //isAttacking = false;
+        StateMachine.Initialize(IdleState);
         wallJumpAngle.Normalize();
+    }
+
+    private void Update()
+    {
+        StateMachine.CurrentState.HandleInput();
+        StateMachine.CurrentState.LogicUpdate();
+        SetAnimatorVariables();
     }
 
     private void FixedUpdate()
     {
-        if (pauseManager.isPaused || isDashing || !canMove || knockBackCounter > 0) return;
-
-        if (!isWallSliding && wallJumpCounter < 0)
-        {
-            rb.linearVelocity = new Vector2(horizontal * speed, rb.linearVelocityY);
-        }
-        else
-        {
-            rb.AddForce(new Vector2(airMoveSpeed * horizontal, 0));
-        }
-
-
-        animator.SetFloat("AirSpeedY", rb.linearVelocityY);
-        animator.SetBool("Grounded", isGrounded());
-
-        if (!isJumping && !isGrounded() && rb.linearVelocityY < 0)
-        {
-            rb.gravityScale = Mathf.Clamp(rb.gravityScale * 1.008f, normalGrav, maxGrav);
-        }
-        else
-        {
-            rb.gravityScale = normalGrav;
-        }
-        WallSlide();
+        StateMachine.CurrentState.PhysicsUpdate();
     }
 
-    // Update is called once per frame
-    void Update()
+    // --- Utilities ---
+    public bool IsGrounded()
     {
-        
-        wallJumpCounter -= Time.deltaTime;
-        knockBackCounter -= Time.deltaTime;
-        if (attackCoolDownCounter > 0)
-        {
-            attackCoolDownCounter -= Time.deltaTime;
-        }
-        if (comboTimerCounter > 0)
-        {
-            comboTimerCounter -= Time.deltaTime;
-        }
-
-        if (isGrounded())
-        {
-            animator.SetBool("Falling", false);
-        }
-        isTouchingWall = Physics2D.OverlapBox(wallCheckPoint.position, wallCheckSize, 0f, wallLayer); // Check if player is touching a wall
-        if (!isTouchingWall)
-        {
-            animator.SetBool("WallSlide", false);
-            animator.SetBool("Falling", true);
-        }
-        else
-        {
-            animator.SetBool("WallSlide", true);
-            animator.SetBool("Falling", false);
-        }
-
-
-        horizontal = Input.GetAxisRaw("Horizontal"); // Returns the value of -1, 0 or +1, depending on the move direction input (A, D, left-arrow, right-arrow)
-        WallJump();
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded()) // Jump
-        {
-            Debug.Log("Player Jump");
-            rb.AddForce(new Vector2(rb.linearVelocityX, jumpingPower), ForceMode2D.Impulse);
-            isJumping = true;
-            velocityHalfed = false;
-            animator.SetTrigger("Jump");
-            animator.SetBool("Grounded", false);
-        }
-        else if (Mathf.Abs(horizontal) > Mathf.Epsilon)
-        {
-            animator.SetInteger("AnimState", 1);
-        }
-        else // Idle
-        {
-            // Can add tiny timer to delay animation state change
-            animator.SetInteger("AnimState", 0);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Mouse0) && attackCoolDownCounter < 0)
-        {
-            if (comboTimerCounter <= 0) // If player is still in combo timer, reset attackCounter
-            {
-                attackCounter = 0;
-            }
-            // isAttacking = true; -- Is this needed? Maybe I swap comboTimerCounter > 0 for a bool saying canAttack
-            // Attack:
-            if (attackCounter % 3 == 0)
-            {
-                animator.SetTrigger("Attack1");
-            }
-            else if ((attackCounter % 3 == 1) && comboTimerCounter > 0)
-            {
-                animator.SetTrigger("Attack2");
-            }
-            else if ((attackCounter % 3 ==  2) && comboTimerCounter > 0)
-            {
-                animator.SetTrigger("Attack3");
-            }
-            attackCoolDownCounter = attackCoolDown;
-            comboTimerCounter = comboTimer;
-            attackCounter++;
-        }
-
-        if (Input.GetKeyUp(KeyCode.Space)) // Check if player is still holding the jump button
-        {
-            isJumping = false;
-        }
-
-        if (!isJumping && !isGrounded() && rb.linearVelocityY > 0 && !velocityHalfed) // Half velocity when player releases jump button
-        {
-            rb.linearVelocityY = rb.linearVelocityY * 0.5f;
-            velocityHalfed = true;
-        }
-
-        if (isGrounded())
-        {
-            animator.SetBool("Grounded", true);
-        }
-
-        if (rb.linearVelocityY < 0)
-        {
-            animator.SetBool("Grounded", false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash) // Dash
-        {
-            StartCoroutine(Dash());
-            return; // Exit Update() to prevent movement or reset gravity during dash
-        }
-       // WallJump();
-        if (rb.linearVelocityY > 0 && !isJumping)
-        {
-            isJumping = true;
-            animator.SetBool("Falling", false);
-            animator.SetTrigger("Jump");
-        }
-        flip();
-
-    }
-    void WallSlide()
-    {
-        if (isTouchingWall && !isGrounded() && rb.linearVelocityY < 0)
-        {
-            isWallSliding = true;
-            isJumping = false;
-            animator.SetBool("WallSlide", true);
-        }
-        else
-        {
-            isWallSliding = false;
-            animator.SetBool("WallSlide", false);
-        }
-
-        if (isWallSliding)
-        {
-            rb.linearVelocityY = wallSlideSpeed;
-        }
-    }
-
-    void WallJump()
-    {
-        if ((wallSliding || isTouchingWall) && Input.GetKeyDown(KeyCode.Space) && !isGrounded())
-        {
-            isJumping = true;
-            velocityHalfed = false;
-            
-            animator.SetBool("Grounded", false);
-            animator.SetBool("WallSlide", false);
-            rb.AddForce(new Vector2(wallJumpForce * wallJumpDirection * wallJumpAngle.x, wallJumpForce * wallJumpAngle.y), ForceMode2D.Impulse);
-           // animator.SetTrigger("Jump");
-            wallJumpCounter = wallJumpTimer;
-        }
-    }
-
-
-    private void flip() // Flip player (gameobject) scale on the x axis to flip direction
-    {
-        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f)
-        {
-            if (isWallSliding)
-            {
-
-            }
-            isFacingRight = !isFacingRight;
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-            wallJumpDirection *= -1; // Change wall jump direction when flipping
-        }
-        
-    }
-
-    private bool isGrounded()
-    {
-        //Debug.Log("IsGrounded Check");
         return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
     }
 
-    public void KnockBack()
+    public bool IsTouchingWall()
     {
-        knockBackCounter = knockBackTimer;
-        animator.SetTrigger("Hurt");
-        rb.linearVelocity = new Vector2(knockBackForceX * -transform.localScale.x, knockBackForceY);
+        return Physics2D.OverlapBox(wallCheckPoint.position, wallCheckSize, 0f, wallLayer);
     }
 
-    public void PlayerDeath()
+    public bool IsTouchingWallLeft()
     {
-        animator.SetTrigger("Death");
+        return Physics2D.OverlapBox(new Vector2(wallCheckPoint.position.x - wallCheckSize.x / 2, wallCheckPoint.position.y), wallCheckSize, 0f, wallLayer);
     }
 
-    public void Walk(int multiplier)
+    public void Flip()
     {
-        canMove = false;
-        rb.linearVelocity = new Vector2(multiplier * speed, rb.linearVelocityY);
+        IsFacingRight = !IsFacingRight;
+        Vector3 localScale = transform.localScale;
+        localScale.x *= -1f;
+        transform.localScale = localScale;
+        wallJumpDirection *= -1;
     }
 
-    private IEnumerator Dash()
+    // --- Animator ---
+    public void SetAnimatorVariables()
     {
-        transform.parent = null; // Remove parent object in case of a moving platform
-        Debug.Log("Dash");
-        canDash = false;
-        isDashing = true;
-        float currentGrav = rb.gravityScale;
-        rb.gravityScale = 0f;
-        rb.linearVelocity = new Vector2(transform.localScale.x * dashingPower, 0f);
-        yield return new WaitForSeconds(dashingTime);
-        rb.gravityScale = currentGrav;
-        isDashing = false;
-        yield return new WaitForSeconds(dashingCooldown);
-        canDash = true;
-    }
+        Animator.SetFloat("AirSpeedY", RB.linearVelocity.y);
+        Animator.SetBool("Grounded", IsGrounded());
 
-    private void OnDrawGizmosSelected()
-    {
-        // For wall check
-        Gizmos.color = Color.red;
-        Gizmos.DrawCube(wallCheckPoint.position, wallCheckSize);
     }
 }

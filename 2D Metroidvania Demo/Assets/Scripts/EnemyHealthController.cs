@@ -46,7 +46,8 @@ public class EnemyHealthController : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerHealthController.instance.DamagePlayer(); // Call the DamagePlayer method from PlayerHealthController
-            PlayerController.instance.KnockBack(); // Call the KnockBack method from PlayerController
+            PlayerController.instance.StateMachine.ChangeState(PlayerController.instance.KnockBackState); // Change the player's state to KnockBack
+            // former PlayerController.instance.KnockBack(); // Call the KnockBack method from PlayerController
         }
     }
 

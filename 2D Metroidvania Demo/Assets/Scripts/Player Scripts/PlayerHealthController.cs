@@ -73,7 +73,7 @@ public class PlayerHealthController : MonoBehaviour
             }
             else
             {
-                PlayerController.instance.KnockBack();
+                PlayerController.instance.StateMachine.ChangeState(PlayerController.instance.KnockBackState);
                 invincibleCounter = invincibleTimer;
                 sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alphaValue);
             }

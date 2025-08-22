@@ -33,7 +33,7 @@ public class ChangeLevel : MonoBehaviour
     private IEnumerator ChangeLevels()
     {
         //playerController.transform.parent = null;
-        PlayerController.instance.Walk(moveMultiplier);
+        // PlayerController.instance.Walk(moveMultiplier);
         yield return new WaitForSeconds(walkTimer);
         SceneManager.LoadScene(sceneIndex);
     }
