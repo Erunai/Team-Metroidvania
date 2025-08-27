@@ -4992,6 +4992,10 @@ PrefabInstance:
       value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
+      propertyPath: KnockBackTimer
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: WallCheckPoint
       value: 
       objectReference: {fileID: 1980496382}
@@ -5006,6 +5010,14 @@ PrefabInstance:
     - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: wallSlideSpeed
       value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
+      propertyPath: KnockBackForceX
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
+      propertyPath: KnockBackForceY
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: dashingCooldown

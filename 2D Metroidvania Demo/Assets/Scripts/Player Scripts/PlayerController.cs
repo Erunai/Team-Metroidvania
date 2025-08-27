@@ -19,9 +19,9 @@ public class PlayerController : MonoBehaviour
     public float DashingCooldown = 0.5f;
 
     [Header("Knock Back")]
-    public float KnockBackTimer = 1f;
-    public float KnockBackForceX = 5f;
-    public float KnockBackForceY = 10f;
+    public float KnockBackTimer = 0.3f;
+    public float KnockBackForceX = 2.5f;
+    public float KnockBackForceY = 5f;
 
     [Header("Wall Mechanics")]
     public float WallSlideSpeed = 0.4f;
