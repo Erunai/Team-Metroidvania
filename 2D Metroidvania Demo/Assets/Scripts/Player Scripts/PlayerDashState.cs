@@ -7,7 +7,7 @@ public class PlayerDashState : PlayerState
 
     public override void Enter()
     {
-        Debug.Log("PlayerDashState: Entering Dash State");
+        Debug.Log("Entering Dash State");
         player.StartCoroutine(DashCoroutine());
     }
 
@@ -34,6 +34,6 @@ public class PlayerDashState : PlayerState
     }
     public override void HandleInput()
     {
-        // empty override to prevent state change during dash
+        // empty override to prevent state change during dash (e.g., to jump or attack)
     }
 }

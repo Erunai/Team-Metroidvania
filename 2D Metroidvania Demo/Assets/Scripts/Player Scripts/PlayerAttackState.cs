@@ -10,14 +10,16 @@ public class PlayerAttackState : PlayerState
 
     public override void Enter()
     {
+        int attackNumber = attackCounter % 3;
+        Debug.Log("Attack State: Attack Number" + attackNumber);
         if (comboTimerCounter <= 0)
             attackCounter = 0;
 
-        if (attackCounter % 3 == 0)
+        if (attackNumber == 0)
             player.Animator.SetTrigger("Attack1");
-        else if (attackCounter % 3 == 1 && comboTimerCounter > 0)
+        else if (attackNumber == 1 && comboTimerCounter > 0)
             player.Animator.SetTrigger("Attack2");
-        else if (attackCounter % 3 == 2 && comboTimerCounter > 0)
+        else if (attackNumber == 2 && comboTimerCounter > 0)
             player.Animator.SetTrigger("Attack3");
 
         attackCooldownCounter = player.AttackCoolDown;
