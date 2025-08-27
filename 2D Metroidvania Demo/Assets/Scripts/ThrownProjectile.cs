@@ -3,10 +3,15 @@ using UnityEngine;
 
 public class ThrownProjectile : MonoBehaviour
 {
-    // TODO: Seperate this into a class for the projectile and a class for the instantialisation
-    // TODO: Add an IEnumerable to define the path of the projectile
-
-    // TODO: Re-use the code from flying enemies -- only attack in range
+    /*
+     * PseudoCode:
+     * 
+     * float distance = getDistanceToTarger();
+     * float angle = calculateAngle(distance, height);
+     * float initialVelocity = calculateInitialVelocity(distance, angle);
+     * 
+     * Instantiate(new Projectile(initialVelocity, angle), firePoint, 0f);
+     */
 
     [SerializeField] Transform hidePos;
     [SerializeField] Transform firePoint;

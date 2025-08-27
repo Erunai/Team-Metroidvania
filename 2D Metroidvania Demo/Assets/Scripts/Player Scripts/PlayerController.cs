@@ -5,41 +5,42 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
     [Header("Movement")]
-    public float speed = 8f;
+    public float Speed = 8f;
     //public float airMoveSpeed = 12f;
-    public float jumpingPower = 16f;
+    public float JumpingPower = 16f;
 
     [Header("Attack")]
-    public float attackCoolDown = 0.5f;
-    public float comboTimer = 1f;
+    public float AttackCoolDown = 0.5f;
+    public float ComboTimer = 1f;
 
     [Header("Dash")]
-    public float dashingPower = 20f;
-    public float dashingTime = 0.2f;
-    public float dashingCooldown = 0.5f;
+    public float DashingPower = 20f;
+    public float DashingTime = 0.2f;
+    public float DashingCooldown = 0.5f;
 
-    [Header("KnockBack")]
-    public float knockBackTimer = 1f;
-    public float knockBackForceX = 5f;
-    public float knockBackForceY = 10f;
+    [Header("Knock Back")]
+    public float KnockBackTimer = 1f;
+    public float KnockBackForceX = 5f;
+    public float KnockBackForceY = 10f;
 
     [Header("Wall Mechanics")]
-    public float wallSlideSpeed = 0.4f;
-    public LayerMask wallLayer;
-    public Transform wallCheckPoint;
-    public Vector2 wallCheckSize = new Vector2(0.5f, 1f);
-    public float wallJumpForce = 18f;
-    public float wallJumpDirection = -1;
-    public Vector2 wallJumpAngle = new Vector2(1, 2);
-    public float wallJumpTimer = 0.2f;
+    public float WallSlideSpeed = 0.4f;
+    public LayerMask WallLayer;
+    public Transform WallCheckPoint;
+    public Vector2 WallCheckSize = new Vector2(0.5f, 1f);
+    public float WallJumpForce = 10f;
+    public float WallJumpDirection = -1;
+    public Vector2 WallJumpAngle = new Vector2(1, 2);
+    public float WallJumpTimer = 0.2f;
 
     [Header("Ground Check")]
-    public Transform groundCheck;
-    public LayerMask groundLayer;
-    public float groundCheckRadius = 0.3f;
-    public float normalGrav = 3f;
-    public float maxGrav = 5f;
+    public Transform GroundCheck;
+    public LayerMask GroundLayer;
+    public float GroundCheckRadius = 0.3f;
+    public float NormalGrav = 3f;
+    public float MaxGrav = 5f;
 
+    // Components and States
     public Rigidbody2D RB { get; private set; }
     public Animator Animator { get; private set; }
     public bool IsFacingRight { get; set; } = true;
@@ -62,10 +63,12 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
         RB = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
-        StateMachine = new PlayerStateManager();
 
+        // State Machine and States
+        StateMachine = new PlayerStateManager();
         IdleState = new PlayerIdleState(this, StateMachine);
         WalkState = new PlayerWalkState(this, StateMachine);
         JumpState = new PlayerJumpState(this, StateMachine);
@@ -80,15 +83,15 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        StateMachine.Initialize(IdleState);
-        wallJumpAngle.Normalize();
+        StateMachine.Initialize(IdleState); // Player begins in idle
+        WallJumpAngle.Normalize(); // Ensure the wall jump angle is a unit vector
     }
 
     private void Update()
     {
         StateMachine.CurrentState.HandleInput();
         StateMachine.CurrentState.LogicUpdate();
-        SetAnimatorVariables();
+        SetAnimatorVariables(); // TODO: Optimize by only calling when necessary
     }
 
     private void FixedUpdate()
@@ -99,33 +102,28 @@ public class PlayerController : MonoBehaviour
     // --- Utilities ---
     public bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        return Physics2D.OverlapCircle(GroundCheck.position, GroundCheckRadius, GroundLayer);
     }
 
     public bool IsTouchingWall()
     {
-        return Physics2D.OverlapBox(wallCheckPoint.position, wallCheckSize, 0f, wallLayer);
-    }
-
-    public bool IsTouchingWallLeft()
-    {
-        return Physics2D.OverlapBox(new Vector2(wallCheckPoint.position.x - wallCheckSize.x / 2, wallCheckPoint.position.y), wallCheckSize, 0f, wallLayer);
+        return Physics2D.OverlapBox(WallCheckPoint.position, WallCheckSize, 0f, WallLayer);
     }
 
     public void Flip()
     {
+        // Rotate the player's sprite by scaling the x axis by -1
         IsFacingRight = !IsFacingRight;
         Vector3 localScale = transform.localScale;
         localScale.x *= -1f;
-        transform.localScale = localScale;
-        wallJumpDirection *= -1;
+        transform.localScale = localScale; // Apply the new scale to the transform
+        WallJumpDirection *= -1; // Change wall jump direction
     }
 
-    // --- Animator ---
+    // --- Animations ---
     public void SetAnimatorVariables()
     {
-        Animator.SetFloat("AirSpeedY", RB.linearVelocity.y);
-        Animator.SetBool("Grounded", IsGrounded());
-
+        Animator.SetFloat("AirSpeedY", RB.linearVelocity.y); // Y-velocity -- Does this need to be set in idle or walking?
+        Animator.SetBool("Grounded", IsGrounded()); // Does this need to be set in idle, walking, sliding, or dashing?
     }
 }

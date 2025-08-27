@@ -6,15 +6,17 @@ public class PlayerWalkState : PlayerState
 
     public override void Enter()
     {
-        base.Enter();
+        Debug.Log("Entering Walk State");
+        // Set animator
         player.Animator.SetInteger("AnimState", 1);
-        player.RB.gravityScale = player.normalGrav;
+        // Reset gravity scale
+        player.RB.gravityScale = player.NormalGrav;
     }
 
     public override void LogicUpdate()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
-        player.RB.linearVelocity = new Vector2(horizontal * player.speed, player.RB.linearVelocity.y);
+        player.RB.linearVelocity = new Vector2(horizontal * player.Speed, player.RB.linearVelocity.y);
 
         if (horizontal < 0 && player.IsFacingRight || horizontal > 0 && !player.IsFacingRight)
             player.Flip();

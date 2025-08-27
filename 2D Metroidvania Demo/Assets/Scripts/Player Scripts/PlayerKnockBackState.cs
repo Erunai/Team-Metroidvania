@@ -2,26 +2,29 @@ using UnityEngine;
 
 public class PlayerKnockBackState : PlayerState
 {
-    private float knockBackCounter;
+    private float _knockBackCounter;
 
     public PlayerKnockBackState(PlayerController player, PlayerStateManager sm) : base(player, sm) { }
 
     public override void Enter()
     {
-        knockBackCounter = player.knockBackTimer;
+        Debug.Log("Entering KnockBack State");
+        // Set knockback timer
+        _knockBackCounter = player.KnockBackTimer;
         player.Animator.SetTrigger("Hurt");
 
+        // Knock back player physically
         player.RB.linearVelocity = new Vector2(
-            player.knockBackForceX * -player.transform.localScale.x,
-            player.knockBackForceY
+            player.KnockBackForceX * -player.transform.localScale.x,
+            player.KnockBackForceY
         );
     }
 
     public override void LogicUpdate()
     {
-        knockBackCounter -= Time.deltaTime;
-
-        if (knockBackCounter <= 0)
+        // Knockback timer countdown + state change
+        _knockBackCounter -= Time.deltaTime;
+        if (_knockBackCounter <= 0)
         {
             if (player.IsGrounded())
                 stateMachine.ChangeState(player.IdleState);

@@ -2,14 +2,20 @@ using UnityEngine;
 
 public class PlayerWallSlideState : PlayerState
 {
+    /*
+     * TODO:
+     * I want to check the Y velocity of the player when they enter this state
+     * Then, if they are falling quickly, I would like them to ease into the wall slide speed
+     */
     public PlayerWallSlideState(PlayerController player, PlayerStateManager sm) : base(player, sm) { }
 
-    private float wallSlideBoost = 5f; // Speed boost while wall sliding for players when holding down
-    private bool isPressingDown = false; // Track if the player is pressing down
+    private float _wallSlideBoost = 5f; // Speed boost while wall sliding for players when holding down
+    private bool _isPressingDown = false; // Track if the player is pressing down
     public override void Enter()
     {
+        Debug.Log("Entering Wall Slide State");
         player.Animator.SetBool("WallSlide", true);
-        player.RB.gravityScale = player.normalGrav;
+        player.RB.gravityScale = player.NormalGrav;
     }
 
     public override void Exit()
@@ -37,30 +43,30 @@ public class PlayerWallSlideState : PlayerState
         float horizontal = Input.GetAxisRaw("Horizontal");
 
         // Player is on the LEFT wall
-        if (player.IsTouchingWallLeft() && horizontal > 0)
+        if (player.WallJumpDirection > 0 && horizontal > 0)
         {
-            player.RB.linearVelocity = new Vector2(player.speed, player.RB.linearVelocity.y);
+            player.RB.linearVelocity = new Vector2(player.Speed, player.RB.linearVelocity.y);
             stateMachine.ChangeState(player.FallState);
         }
 
         // Player is on the RIGHT wall
-        if (!player.IsTouchingWallLeft() && horizontal < 0)
+        if (player.WallJumpDirection < 0 && horizontal < 0)
         {
-            player.RB.linearVelocity = new Vector2(player.speed, player.RB.linearVelocity.y);
+            player.RB.linearVelocity = new Vector2(player.Speed, player.RB.linearVelocity.y);
             stateMachine.ChangeState(player.FallState);
         }
 
         // If the player is pressing down, they should fall faster
-        isPressingDown = Input.GetAxisRaw("Vertical") < 0;
+        _isPressingDown = Input.GetAxisRaw("Vertical") < 0;
 
     }
 
     public override void PhysicsUpdate()
     {
-        float targetYVelocity = -player.wallSlideSpeed;
+        float targetYVelocity = -player.WallSlideSpeed;
 
-        if (isPressingDown) { 
-            targetYVelocity -= wallSlideBoost; // Apply boost if pressing down
+        if (_isPressingDown) { 
+            targetYVelocity -= _wallSlideBoost; // Apply boost if pressing down
         }
         player.RB.linearVelocity = new Vector2(player.RB.linearVelocity.x, targetYVelocity);
     }

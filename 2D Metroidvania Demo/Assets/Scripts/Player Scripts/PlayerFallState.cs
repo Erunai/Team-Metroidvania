@@ -6,17 +6,17 @@ public class PlayerFallState : PlayerState
 
     public override void Enter()
     {
-        base.Enter();
         Debug.Log("PlayerFallState: Entering Fall State");
+        // Set animator booleans
         player.Animator.SetBool("Grounded", false);
         player.Animator.SetBool("Falling", true);
     }
 
     public override void LogicUpdate()
     {
-        if (player.IsGrounded())
+        if (player.IsGrounded()) // Checks every frame -- But also checked in PlayerController -- must refactor
         {   
-            Debug.Log("PlayerFallState: Player is grounded, changing to Idle State");
+            Debug.Log("PlayerFallState: Player is grounded");
             player.Animator.SetBool("Falling", false);
             stateMachine.ChangeState(player.IdleState);
         }
@@ -33,16 +33,16 @@ public class PlayerFallState : PlayerState
         float horizontal = Input.GetAxisRaw("Horizontal");
 
         // Air control
-        player.RB.linearVelocity = new Vector2(horizontal * player.speed, player.RB.linearVelocity.y);
+        player.RB.linearVelocity = new Vector2(horizontal * player.Speed, player.RB.linearVelocity.y);
 
         if (horizontal < 0 && player.IsFacingRight || horizontal > 0 && !player.IsFacingRight)
             player.Flip();
 
         // Gravity scaling
         if (player.RB.linearVelocity.y < 0)
-            player.RB.gravityScale = Mathf.Clamp(player.RB.gravityScale * 1.008f, player.normalGrav, player.maxGrav);
+            player.RB.gravityScale = Mathf.Clamp(player.RB.gravityScale * 1.008f, player.NormalGrav, player.MaxGrav);
         else
-            player.RB.gravityScale = player.normalGrav;
+            player.RB.gravityScale = player.NormalGrav;
     }
 
     public override void HandleInput()

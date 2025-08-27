@@ -8,7 +8,6 @@ public class PlayerDashState : PlayerState
     public override void Enter()
     {
         Debug.Log("PlayerDashState: Entering Dash State");
-        base.Enter();
         player.StartCoroutine(DashCoroutine());
     }
 
@@ -18,9 +17,9 @@ public class PlayerDashState : PlayerState
         float originalGrav = player.RB.gravityScale;
 
         player.RB.gravityScale = 0f;
-        player.RB.linearVelocity = new Vector2(player.transform.localScale.x * player.dashingPower, 0f);
+        player.RB.linearVelocity = new Vector2(player.transform.localScale.x * player.DashingPower, 0f);
 
-        yield return new WaitForSeconds(player.dashingTime);
+        yield return new WaitForSeconds(player.DashingTime);
 
         player.RB.gravityScale = originalGrav;
 
@@ -30,7 +29,7 @@ public class PlayerDashState : PlayerState
         else
             stateMachine.ChangeState(player.FallState);
 
-        yield return new WaitForSeconds(player.dashingCooldown);
+        yield return new WaitForSeconds(player.DashingCooldown);
         player.CanDash = true;
     }
     public override void HandleInput()

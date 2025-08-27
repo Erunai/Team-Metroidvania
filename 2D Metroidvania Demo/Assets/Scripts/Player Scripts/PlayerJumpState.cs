@@ -7,9 +7,8 @@ public class PlayerJumpState : PlayerState
 
     public override void Enter()
     {
-        base.Enter();
         Debug.Log("PlayerJumpState: Entering Jump State");
-        player.RB.AddForce(Vector2.up * player.jumpingPower, ForceMode2D.Impulse);
+        player.RB.AddForce(Vector2.up * player.JumpingPower, ForceMode2D.Impulse);
         player.Animator.SetTrigger("Jump");
     }
 
@@ -20,12 +19,6 @@ public class PlayerJumpState : PlayerState
             Debug.Log("PlayerJumpState: Changing to Fall State");
             stateMachine.ChangeState(player.FallState);
         }
-        // Do we want to be able to transition to Wall Slide State from Jump State?
-        //else if (player.IsTouchingWall() && !player.IsGrounded())
-        //{
-        //    Debug.Log("PlayerJumpState: Changing to Wall Slide State");
-        //    stateMachine.ChangeState(player.WallSlideState);
-        //}
     }
 
     public override void PhysicsUpdate()
@@ -33,7 +26,7 @@ public class PlayerJumpState : PlayerState
         float horizontal = Input.GetAxisRaw("Horizontal");
 
         // Air control
-        player.RB.linearVelocity = new Vector2(horizontal * player.speed, player.RB.linearVelocity.y);
+        player.RB.linearVelocity = new Vector2(horizontal * player.Speed, player.RB.linearVelocity.y);
 
         if (horizontal < 0 && player.IsFacingRight || horizontal > 0 && !player.IsFacingRight)
             player.Flip();
@@ -47,12 +40,7 @@ public class PlayerJumpState : PlayerState
             Debug.Log("PlayerJumpState: Player pressed space, changing to Jump State");
             stateMachine.ChangeState(player.JumpState);
         }
-        else if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.01f)
-        {
-            Debug.Log("PlayerJumpState: Player is moving, changing to Walk State");
-            stateMachine.ChangeState(player.WalkState);
-        }
-        else if (Input.GetKeyDown(KeyCode.Mouse0))
+        else if (Input.GetKeyDown(KeyCode.Mouse0)) // Probably unnecessary
         {
             Debug.Log("PlayerJumpState: Player pressed attack, changing to Attack State");
             stateMachine.ChangeState(player.AttackState);

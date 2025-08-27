@@ -8,14 +8,13 @@ public class PlayerWallJumpState : PlayerState
 
     public override void Enter()
     {
-        base.Enter();
-        Debug.Log("PlayerWallJumpState: Entering Wall Jump State");
-        wallJumpCounter = player.wallJumpTimer;
+        Debug.Log("Entering Wall Jump State");
+        wallJumpCounter = player.WallJumpTimer;
 
         // Push player up and away from the wall
         player.RB.AddForce(new Vector2(
-            player.wallJumpForce * player.wallJumpDirection * player.wallJumpAngle.x,
-            player.wallJumpForce * player.wallJumpAngle.y
+            player.WallJumpForce * player.WallJumpDirection * player.WallJumpAngle.x,
+            player.WallJumpForce * player.WallJumpAngle.y
         ), ForceMode2D.Impulse);
 
         player.Animator.SetTrigger("Jump");
@@ -28,10 +27,6 @@ public class PlayerWallJumpState : PlayerState
         if (wallJumpCounter <= 0)
         {
             stateMachine.ChangeState(player.FallState);
-            if (player.RB.linearVelocity.y > 0)
-            {
-                //stateMachine.ChangeState(player.JumpState);
-            }
         }
     }
 

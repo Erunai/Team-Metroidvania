@@ -20,8 +20,8 @@ public class PlayerAttackState : PlayerState
         else if (attackCounter % 3 == 2 && comboTimerCounter > 0)
             player.Animator.SetTrigger("Attack3");
 
-        attackCooldownCounter = player.attackCoolDown;
-        comboTimerCounter = player.comboTimer;
+        attackCooldownCounter = player.AttackCoolDown;
+        comboTimerCounter = player.ComboTimer;
         attackCounter++;
     }
 

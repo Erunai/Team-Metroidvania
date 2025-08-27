@@ -11,12 +11,12 @@ public abstract class PlayerState
         this.stateMachine = stateMachine;
     }
 
-    // Define abstract methods that derived states must implement
-    public virtual void Enter() {
-    }
-    public virtual void Exit() {
-    }
+    // Define virtual methods that derived states must implement
+    // Note: Abstract methods must be implemented by derived classes, while virtual methods can be optionally overridden
+    public abstract void Enter(); // Called when the state is entered
+    public virtual void Exit() { } // Called when the state is exited
     public virtual void HandleInput() {
+        // I don't know if I want this -- but it might be easier to override the method in states which don't use this
         if (Input.GetKeyDown(KeyCode.LeftShift) && player.CanDash)
             stateMachine.ChangeState(player.DashState);
     }

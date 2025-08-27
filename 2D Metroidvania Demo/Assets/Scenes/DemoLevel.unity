@@ -1173,6 +1173,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1716245936}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &466427994 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4010086356719736044, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
+  m_PrefabInstance: {fileID: 2246429991624831947}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &510072058
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4959,6 +4964,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
+      propertyPath: GroundCheck
+      value: 
+      objectReference: {fileID: 466427994}
+    - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: dashingTime
       value: 0.2
       objectReference: {fileID: 0}
@@ -4971,6 +4980,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 126701488}
     - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
+      propertyPath: WallJumpForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: wallJumpForce
       value: 13
       objectReference: {fileID: 0}
@@ -4978,6 +4991,10 @@ PrefabInstance:
       propertyPath: wallJumpTimer
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
+      propertyPath: WallCheckPoint
+      value: 
+      objectReference: {fileID: 1980496382}
     - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: attackCoolDown
       value: 0.3
@@ -5011,8 +5028,16 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
+      propertyPath: WallLayer.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: wallLayer.m_Bits
       value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
+      propertyPath: GroundLayer.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 7397338280743717393, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: healthBar
