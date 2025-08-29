@@ -27,7 +27,7 @@ public class PlayerFallState : PlayerState
         }
     }
 
-    // FallState.cs
+    // FallState
     public override void PhysicsUpdate()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
@@ -40,7 +40,7 @@ public class PlayerFallState : PlayerState
 
         // Gravity scaling
         if (player.RB.linearVelocity.y < 0)
-            player.RB.gravityScale = Mathf.Clamp(player.RB.gravityScale * 1.008f, player.NormalGrav, player.MaxGrav);
+            player.RB.gravityScale = Mathf.Clamp(player.RB.gravityScale * 1.1f, player.NormalGrav, player.MaxGrav);
         else
             player.RB.gravityScale = player.NormalGrav;
     }

@@ -11,6 +11,7 @@ public class PlayerWallSlideState : PlayerState
 
     private float _wallSlideBoost = 5f; // Speed boost while wall sliding for players when holding down
     private bool _isPressingDown = false; // Track if the player is pressing down
+
     public override void Enter()
     {
         Debug.Log("Entering Wall Slide State");
@@ -25,9 +26,14 @@ public class PlayerWallSlideState : PlayerState
 
     public override void LogicUpdate()
     {
-        if (!player.IsTouchingWall() || player.IsGrounded())
+        if (!player.IsTouchingWall())
         {
             stateMachine.ChangeState(player.FallState);
+        }
+
+        if (player.IsGrounded())
+        {
+           stateMachine.ChangeState(player.IdleState);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))

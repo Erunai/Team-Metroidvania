@@ -11,7 +11,7 @@ public class PlayerAttackState : PlayerState
     public override void Enter()
     {
         int attackNumber = attackCounter % 3;
-        Debug.Log("Attack State: Attack Number" + attackNumber);
+        Debug.Log("Attack State: Attack Number " + (attackNumber + 1));
         if (comboTimerCounter <= 0)
             attackCounter = 0;
 

@@ -28,6 +28,13 @@ public class PlayerJumpState : PlayerState
         // Air control
         player.RB.linearVelocity = new Vector2(horizontal * player.Speed, player.RB.linearVelocity.y);
 
+        // Gravity scaling
+        if (!Input.GetKey(KeyCode.Space))
+        {
+            Debug.Log("PlayerJumpState: Player released jump key, increasing gravity");
+            player.RB.gravityScale = Mathf.Clamp(player.RB.gravityScale * 1.1f, player.NormalGrav, player.MaxGrav);
+        }
+        // Flip player sprite -- should this be in PlayerController instead? --- probably
         if (horizontal < 0 && player.IsFacingRight || horizontal > 0 && !player.IsFacingRight)
             player.Flip();
     }
@@ -35,16 +42,7 @@ public class PlayerJumpState : PlayerState
     public override void HandleInput()
     {
         base.HandleInput();
-        if (Input.GetKeyDown(KeyCode.Space) && player.IsGrounded())
-        {
-            Debug.Log("PlayerJumpState: Player pressed space, changing to Jump State");
-            stateMachine.ChangeState(player.JumpState);
-        }
-        else if (Input.GetKeyDown(KeyCode.Mouse0)) // Probably unnecessary
-        {
-            Debug.Log("PlayerJumpState: Player pressed attack, changing to Attack State");
-            stateMachine.ChangeState(player.AttackState);
-        }
+        // TODO maybe -- allow for attack input while jumping
     }
 }
 

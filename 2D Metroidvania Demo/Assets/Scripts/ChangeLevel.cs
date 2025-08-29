@@ -4,25 +4,28 @@ using UnityEngine.SceneManagement;
 
 public class ChangeLevel : MonoBehaviour
 {
-    [SerializeField] private bool left;
-    [SerializeField] private bool instant;
-    [SerializeField] private float walkTimer;
-    [SerializeField] private int sceneIndex;
-    private int moveMultiplier;
-    private float walkCounter;
+    // Should maybe make this a state machine change instead of a coroutine -- but this is simpler for now
+
+
+    [SerializeField] private bool left; // Walk left or right when changing scenes
+    [SerializeField] private bool instant; // Change scenes instantly on trigger enter -- should maybe be replaced by walkTimer = 0
+    [SerializeField] private float walkTimer; // How long to walk before changing scenes
+    [SerializeField] private int sceneIndex; // What scene index to change too
+    private int _moveMultiplier;
+    private float _walkCounter;
 
     private void Start()
     {
         //playerController = FindAnyObjectByType<PlayerController>();
-        moveMultiplier = left ? -1 : 1;
-        walkCounter = walkTimer;
+        _moveMultiplier = left ? -1 : 1;
+        _walkCounter = walkTimer;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            if (instant)
+            if (instant) // could replace with walkTimer = 0
             {
                 SceneManager.LoadScene(sceneIndex);
             }

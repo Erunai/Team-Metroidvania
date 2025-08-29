@@ -2890,7 +2890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15bae137d491dc54fb892455da1f53a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitToRespawn: 2
+  WaitToRespawn: 0
 --- !u!4 &1180017148
 Transform:
   m_ObjectHideFlags: 0
@@ -4981,7 +4981,7 @@ PrefabInstance:
       objectReference: {fileID: 126701488}
     - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: WallJumpForce
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 5557401860783665295, guid: f7c66de329927944d9c67e967406d0e7, type: 3}
       propertyPath: wallJumpForce

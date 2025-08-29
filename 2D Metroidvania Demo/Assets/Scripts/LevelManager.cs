@@ -4,7 +4,7 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
 
-    public float waitToRespawn;
+    public float WaitToRespawn;
 
     private void Awake()
     {
@@ -19,7 +19,7 @@ public class LevelManager : MonoBehaviour
     private IEnumerator RespawnCo()
     {
         PlayerController.instance.gameObject.SetActive(false);
-        yield return new WaitForSeconds(waitToRespawn);
+        yield return new WaitForSeconds(WaitToRespawn);
         PlayerController.instance.transform.position = CheckPointController.instance.spawnPoint;
         PlayerController.instance.gameObject.SetActive(true);
 

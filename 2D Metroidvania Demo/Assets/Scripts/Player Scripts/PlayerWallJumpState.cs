@@ -13,7 +13,7 @@ public class PlayerWallJumpState : PlayerState
 
         // Push player up and away from the wall
         player.RB.AddForce(new Vector2(
-            player.WallJumpForce * player.WallJumpDirection * player.WallJumpAngle.x,
+            player.WallJumpForce * player.WallJumpDirection * player.WallJumpAngle.x * 0.5f, // Horizontal force is halved to make player jump away from wall less jarring
             player.WallJumpForce * player.WallJumpAngle.y
         ), ForceMode2D.Impulse);
 

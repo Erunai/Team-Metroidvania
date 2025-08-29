@@ -13,6 +13,7 @@ public class PlayerKnockBackState : PlayerState
         _knockBackCounter = player.KnockBackTimer;
         player.Animator.SetTrigger("Hurt");
 
+        // Did we want to knock the player away from the thing that hit them? If so, we need to set a bool up in the player controller for knockBack direction
         // Knock back player physically
         player.RB.linearVelocity = new Vector2(
             player.KnockBackForceX * -player.transform.localScale.x,
@@ -27,7 +28,10 @@ public class PlayerKnockBackState : PlayerState
         if (_knockBackCounter <= 0)
         {
             if (player.IsGrounded())
+            {
+                player.RB.linearVelocity = new Vector2(0, player.RB.linearVelocity.y); // Cancel the horizontal velocity out before changing state
                 stateMachine.ChangeState(player.IdleState);
+            }
             else
                 stateMachine.ChangeState(player.FallState);
         }
