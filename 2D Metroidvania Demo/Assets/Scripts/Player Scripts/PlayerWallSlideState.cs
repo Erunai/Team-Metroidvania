@@ -51,14 +51,14 @@ public class PlayerWallSlideState : PlayerState
         // Player is on the LEFT wall
         if (player.WallJumpDirection > 0 && horizontal > 0)
         {
-            player.RB.linearVelocity = new Vector2(player.Speed, player.RB.linearVelocity.y);
+            player.RB.linearVelocity = new Vector2(player.Speed * player.WallJumpDirection, player.RB.linearVelocity.y);
             stateMachine.ChangeState(player.FallState);
         }
 
         // Player is on the RIGHT wall
         if (player.WallJumpDirection < 0 && horizontal < 0)
         {
-            player.RB.linearVelocity = new Vector2(player.Speed, player.RB.linearVelocity.y);
+            player.RB.linearVelocity = new Vector2(player.Speed * player.WallJumpDirection, player.RB.linearVelocity.y);
             stateMachine.ChangeState(player.FallState);
         }
 
