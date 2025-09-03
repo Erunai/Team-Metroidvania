@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour
         Animator = GetComponent<Animator>();
 
         // State Machine and States
-        StateMachine = new PlayerStateManager();
+        StateMachine = new PlayerStateManager(); // Leave as new -- we don't want this to be a singleton
         IdleState = new PlayerIdleState(this, StateMachine);
         WalkState = new PlayerWalkState(this, StateMachine);
         JumpState = new PlayerJumpState(this, StateMachine);
