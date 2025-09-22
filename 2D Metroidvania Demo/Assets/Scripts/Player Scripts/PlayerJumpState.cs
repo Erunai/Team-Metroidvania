@@ -10,7 +10,7 @@ public class PlayerJumpState : PlayerState
     private float _horizontal;
     public override void Enter()
     {
-        Debug.Log("PlayerJumpState: Entering Jump State");
+        Debug.Log("Entering Jump State");
         player.RB.AddForce(Vector2.up * player.JumpingPower, ForceMode2D.Impulse);
         player.Animator.SetTrigger("Jump");
         _increaseGrav = false;
@@ -52,6 +52,12 @@ public class PlayerJumpState : PlayerState
             Debug.Log("PlayerJumpState: Player released jump key, increasing gravity");
         }
         // TODO maybe -- allow for attack input while jumping
+    }
+
+    public override void Exit()
+    {
+        Debug.Log("Exiting jump state: Reset Anim Trigger Jump");
+        player.Animator.ResetTrigger("Jump");
     }
 }
 

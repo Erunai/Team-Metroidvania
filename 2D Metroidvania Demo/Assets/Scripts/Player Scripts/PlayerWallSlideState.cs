@@ -6,6 +6,9 @@ public class PlayerWallSlideState : PlayerState
      * TODO:
      * I want to check the Y velocity of the player when they enter this state
      * Then, if they are falling quickly, I would like them to ease into the wall slide speed
+     * 
+     * 22/09/2025:
+     *  I am going to try changing the collision check to the ground layer to see if I need to create a seperate wall tilemap - LB
      */
     public PlayerWallSlideState(PlayerController player, PlayerStateManager sm) : base(player, sm) { }
 

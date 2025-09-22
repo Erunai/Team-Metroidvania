@@ -107,7 +107,8 @@ public class PlayerController : MonoBehaviour
 
     public bool IsTouchingWall()
     {
-        return Physics2D.OverlapBox(WallCheckPoint.position, WallCheckSize, 0f, WallLayer);
+        //return Physics2D.OverlapBox(WallCheckPoint.position, WallCheckSize, 0f, WallLayer);
+        return Physics2D.OverlapBox(WallCheckPoint.position, WallCheckSize, 0f, GroundLayer);
     }
 
     public void Flip()
