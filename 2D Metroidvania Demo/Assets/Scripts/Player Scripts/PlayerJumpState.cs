@@ -57,7 +57,7 @@ public class PlayerJumpState : PlayerState
     public override void Exit()
     {
         Debug.Log("Exiting jump state: Reset Anim Trigger Jump");
-        player.Animator.ResetTrigger("Jump");
+        player.Animator.ResetTrigger("Jump"); // This isn't working ???
     }
 }
 
