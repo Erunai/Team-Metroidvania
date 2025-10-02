@@ -6,6 +6,8 @@ public class LevelManager : MonoBehaviour
 
     public float WaitToRespawn;
 
+    private float _playerScore;
+
     private void Awake()
     {
         instance = this;
@@ -29,5 +31,12 @@ public class LevelManager : MonoBehaviour
         {
             PlayerController.instance.CanDash = true;
         }
+    }
+
+    public void AddScore(int scoreToAdd)
+    {
+        _playerScore += scoreToAdd;
+        Debug.Log("Player Score = " + _playerScore);
+        // UIManager.instance.UpdateScore(playerScore);
     }
 }

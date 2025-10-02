@@ -18,6 +18,7 @@ public class PlayerWallSlideState : PlayerState
     public override void Enter()
     {
         Debug.Log("Entering Wall Slide State");
+        player.CanDoubleJump = true; // Reset double jump - maybe change this later if we don't want double jump after wall slide
         player.Animator.SetBool("WallSlide", true);
         player.RB.gravityScale = player.NormalGrav;
     }

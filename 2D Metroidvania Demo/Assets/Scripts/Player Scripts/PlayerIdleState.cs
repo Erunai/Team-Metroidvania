@@ -7,6 +7,7 @@ public class PlayerIdleState : PlayerState
     public override void Enter()
     {
         Debug.Log("Entering Idle State");
+        player.CanDoubleJump = true; // Reset double jump
         player.Animator.SetInteger("AnimState", 0);
         player.RB.gravityScale = player.NormalGrav;
     }

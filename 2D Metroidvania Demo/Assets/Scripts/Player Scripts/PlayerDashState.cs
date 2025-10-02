@@ -21,6 +21,8 @@ public class PlayerDashState : PlayerState
 
         yield return new WaitForSeconds(player.DashingTime);
 
+        player.RB.linearVelocity = new Vector2(0f, 0f); // Stop horizontal movement after dash - prevents sliding
+
         player.RB.gravityScale = originalGrav;
 
         // Return to grounded or falling state

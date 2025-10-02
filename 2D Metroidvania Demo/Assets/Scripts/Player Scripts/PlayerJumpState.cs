@@ -11,11 +11,9 @@ public class PlayerJumpState : PlayerState
     public override void Enter()
     {
         Debug.Log("Entering Jump State");
-        player.RB.AddForce(Vector2.up * player.JumpingPower, ForceMode2D.Impulse);
-        player.Animator.SetTrigger("Jump");
-        _increaseGrav = false;
+        Jump();
+        player.RB.gravityScale = player.NormalGrav; // Reset gravity scale when entering jump
     }
-
     public override void LogicUpdate()
     {
         if (player.RB.linearVelocity.y < 0)
@@ -51,13 +49,26 @@ public class PlayerJumpState : PlayerState
             _increaseGrav = true;
             Debug.Log("PlayerJumpState: Player released jump key, increasing gravity");
         }
-        // TODO maybe -- allow for attack input while jumping
+        if (Input.GetKeyDown(KeyCode.Space) && PlayerController.instance.CanDoubleJump)
+        {
+            Jump();
+            player.CanDoubleJump = false;
+        }
     }
 
     public override void Exit()
     {
         Debug.Log("Exiting jump state: Reset Anim Trigger Jump");
         player.Animator.ResetTrigger("Jump"); // This isn't working ???
+    }
+
+    private void Jump()
+    {
+        // Reset vertical velocity before jumping to ensure consistent jump height
+        player.RB.linearVelocity = new Vector2(player.RB.linearVelocity.x, 0f);
+        player.RB.AddForce(Vector2.up * player.JumpingPower, ForceMode2D.Impulse);
+        player.Animator.SetTrigger("Jump");
+        _increaseGrav = false;
     }
 }
 

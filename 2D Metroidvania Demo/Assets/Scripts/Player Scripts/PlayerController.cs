@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
     public Animator Animator { get; private set; }
     public bool IsFacingRight { get; set; } = true;
     public bool CanDash { get; set; } = true;
+    public bool CanDoubleJump { get; set; } = true;
 
     public PlayerStateManager StateMachine { get; private set; }
 

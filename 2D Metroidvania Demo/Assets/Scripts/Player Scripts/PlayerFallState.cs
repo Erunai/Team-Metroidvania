@@ -48,5 +48,10 @@ public class PlayerFallState : PlayerState
     public override void HandleInput()
     {
         base.HandleInput();
+        if (Input.GetKeyDown(KeyCode.Space) && PlayerController.instance.CanDoubleJump)
+        {
+            player.CanDoubleJump = false;
+            stateMachine.ChangeState(player.JumpState);
+        }
     }
 }
