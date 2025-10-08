@@ -25,7 +25,7 @@ public class CheckPointController : MonoBehaviour
     {
         foreach (CheckPoint checkPoint in checkPoints)
         {
-            checkPoint.resetCheckPoint(); // Once we get visual feedback -- reset the checkpoint to its original state
+            checkPoint.deactivateCheckPoint(); // Turn the light off of other checkpoints - could instead turn red?
         }
     }
 

@@ -203,31 +203,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bf7c5b5162c1e34e9ebf63e99867bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
-  jumpingPower: 16
-  attackCoolDown: 0.5
-  comboTimer: 1
-  dashingPower: 20
-  dashingTime: 1
-  dashingCooldown: 0.5
-  isDashing: 0
-  canDash: 0
-  knockBackTimer: 0.25
-  knockBackForceY: 4
-  knockBackForceX: 2
-  rb: {fileID: 5374499542584265899}
-  groundCheck: {fileID: 4010086356719736044}
-  groundLayer:
+  Speed: 8
+  JumpingPower: 16
+  AttackCoolDown: 0.5
+  ComboTimer: 1
+  DashingPower: 20
+  DashingTime: 0.2
+  DashingCooldown: 0.5
+  KnockBackTimer: 0.3
+  KnockBackForceX: 2.5
+  KnockBackForceY: 5
+  WallSlideSpeed: 0.4
+  WallLayer:
     serializedVersion: 2
     m_Bits: 64
-  wallLayer:
+  WallCheckPoint: {fileID: 1491334735280252386}
+  WallCheckSize: {x: 0.5, y: 1}
+  WallJumpForce: 15
+  WallJumpDirection: -1
+  WallJumpAngle: {x: 1, y: 2}
+  WallJumpTimer: 0.2
+  GroundCheck: {fileID: 4010086356719736044}
+  GroundLayer:
     serializedVersion: 2
-    m_Bits: 0
-  groundCheckRadius: 0.35
-  maxGrav: 5
-  normalGrav: 3
-  isPaused: 0
-  pauseManager: {fileID: 0}
+    m_Bits: 64
+  GroundCheckRadius: 0.3
+  NormalGrav: 3
+  MaxGrav: 5
 --- !u!114 &7397338280743717393
 MonoBehaviour:
   m_ObjectHideFlags: 0
