@@ -4,7 +4,14 @@ public class DestroyAfterTime : MonoBehaviour
 {
     [SerializeField] private float timeToDestroy = 1.0f;
     private float counter;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+
+    // Constructor for adding script to GameObject programmatically
+    public DestroyAfterTime(float timeToDestroy, float counter)
+    {
+        this.timeToDestroy = timeToDestroy;
+        this.counter = counter;
+    }
     void Start()
     {
         counter = timeToDestroy;

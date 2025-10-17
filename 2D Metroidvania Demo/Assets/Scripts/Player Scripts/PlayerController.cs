@@ -3,6 +3,13 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+
+    /*
+     * NOTES FOR CHANGING CHARACTER
+     * The new character has the following animations:
+     * Idle, run, flyUp, flyDown, die, punch, go-to-sit, sit, sit-to-go, die
+     * Maybe can use the punch animation (partial) for wall slide.
+     */
     public static PlayerController instance;
     [Header("Movement")]
     public float Speed = 8f;
@@ -54,12 +61,12 @@ public class PlayerController : MonoBehaviour
     public PlayerWalkState WalkState { get; private set; }
     public PlayerJumpState JumpState { get; private set; }
     public PlayerFallState FallState { get; private set; }
-    public PlayerAttackState AttackState { get; private set; }
+    public PlayerAttackState AttackState { get; private set; } // no longer a state
     public PlayerDashState DashState { get; private set; }
     public PlayerWallSlideState WallSlideState { get; private set; }
     public PlayerWallJumpState WallJumpState { get; private set; }
-    public PlayerKnockBackState KnockBackState { get; private set; }
-    public PlayerDeathState DeathState { get; private set; }
+    public PlayerKnockBackState KnockBackState { get; private set; } // no longer a state
+    public PlayerDeathState DeathState { get; private set; } // Was never actually a state
 
     private void Awake()
     {
@@ -68,8 +75,8 @@ public class PlayerController : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
 
-        // State Machine and States
-        StateMachine = new PlayerStateManager(); // Leave as new -- we don't want this to be a singleton
+        // State Machine and States -- ensure they are not singletons
+        StateMachine = new PlayerStateManager();
         IdleState = new PlayerIdleState(this, StateMachine);
         WalkState = new PlayerWalkState(this, StateMachine);
         JumpState = new PlayerJumpState(this, StateMachine);

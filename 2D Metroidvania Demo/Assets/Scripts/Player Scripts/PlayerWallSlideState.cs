@@ -37,7 +37,8 @@ public class PlayerWallSlideState : PlayerState
 
         if (player.IsGrounded())
         {
-           stateMachine.ChangeState(player.IdleState);
+            Debug.Log("Player is grounded, switching to Idle State");
+            stateMachine.ChangeState(player.IdleState);
         }
 
         if (Input.GetKeyDown(KeyCode.Space))

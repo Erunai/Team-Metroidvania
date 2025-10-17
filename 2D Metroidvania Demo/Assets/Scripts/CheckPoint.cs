@@ -4,26 +4,24 @@ using UnityEngine.Rendering.Universal;
 public class CheckPoint : MonoBehaviour
 {
     Light2D light2D;
-    bool activated;
+    bool notActive;
     public void Start()
     {
         light2D = GetComponentInChildren<Light2D>();
         light2D.color = Color.green;
-        deactivateCheckPoint();
+        deactivateCheckPoint(); // Start checkpoint as deactivated
     }
-    /*
-     * TODO: Give visual feedback when a player walks on a checkpoint -- e.g., change the sprite of a checkpoint to indicate that it has been activated.
-     */
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             Debug.Log("New checkpoint activated");
+            // Disable other checkpoints
             CheckPointController.instance.DeactivateCheckPoints();
 
-            activateCheckPoint();
-
+            // Enable Checkpoint
+            if (notActive) activateCheckPoint(); // Only activate if not already activated - Maybe this should be for the entire code block?
             CheckPointController.instance.SetSpawnPoint(transform.position);
         }
     }
@@ -31,13 +29,13 @@ public class CheckPoint : MonoBehaviour
     private void activateCheckPoint()
     {
         // Visual activation of checkpoint
-        activated = true;
-        light2D.enabled = true;
+        notActive = false;
+        light2D.color = Color.green; // Set light color to Green
     }
     public void deactivateCheckPoint()
     {
         // Visual deactivation of checkpoint
-        activated = false;
-        light2D.enabled = false;
+        notActive = true;
+        light2D.color = Color.red; // Set light color to Red
     }
 }

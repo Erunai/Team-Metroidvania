@@ -13,6 +13,7 @@ public class PlayerDashState : PlayerState
 
     private IEnumerator DashCoroutine()
     {
+        // While dashing, disable gravity and set horizontal velocity
         player.CanDash = false;
         float originalGrav = player.RB.gravityScale;
 
@@ -33,6 +34,8 @@ public class PlayerDashState : PlayerState
 
         yield return new WaitForSeconds(player.DashingCooldown);
         player.CanDash = true;
+        // TODO: Add visual effect (color shift + speed line) while dashing
+        // Also - maybe add a sound effect and a particle effect when dash is ready again
     }
     public override void HandleInput()
     {
