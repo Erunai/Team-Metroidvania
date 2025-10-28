@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour
     [Header("Attack")]
     public float AttackCoolDown = 0.5f;
     public float ComboTimer = 1f;
+    public GameObject attackPoint;
+    public float attackPointRadius;
+    public LayerMask enemy;
 
     [Header("Dash")]
     public float DashingPower = 20f;
@@ -134,5 +137,20 @@ public class PlayerController : MonoBehaviour
     {
         Animator.SetFloat("AirSpeedY", RB.linearVelocity.y); // Y-velocity -- Does this need to be set in idle or walking?
         Animator.SetBool("Grounded", IsGrounded()); // Does this need to be set in idle, walking, sliding, or dashing?
+    }
+
+    public void Attack()
+    {
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.transform.position, attackPointRadius, enemy);
+        foreach (Collider2D enemyGameObject in hitEnemies)
+        {
+            enemyGameObject.GetComponent<EnemyHealthManager>().Hurt();
+            Debug.Log("Hit " + enemyGameObject.name);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(attackPoint.transform.position, attackPointRadius);
     }
 }

@@ -7,7 +7,7 @@ public class PressE : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerCon.gameObject.SetActive(false); // Set playercon disabled on start
+        playerCon.enabled = false; // Set playercon disabled on start
     }
 
     // Update is called once per frame
@@ -15,8 +15,9 @@ public class PressE : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            playerCon.SetActive(true);
-            playerCon.
+            playerCon.enabled = true;
+            playerCon.Animator.SetTrigger("StandUp");
+            Destroy(gameObject);
         }
     }
 }

@@ -4,8 +4,6 @@ public class InputManager : MonoBehaviour
 {
     // To be archived
 
-
-
     public static System.Action OnDashPressed;
     public static System.Action OnJumpPressed;
 

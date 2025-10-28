@@ -9,8 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 411f64226a2c2c14f90d70fcbc69c206
   - enabled: 1
-    path: Assets/Scenes/Art- Mockup and setup.unity
+    path: Assets/Scenes/Level1.unity
     guid: 8b3f01a6361deaf4eb213f50066b6d48
+  - enabled: 1
+    path: Assets/Scenes/Level2 Playground.unity
+    guid: 8fcd4ad6ea7d1644383a4956da9c9c8d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

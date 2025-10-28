@@ -25,6 +25,8 @@ public class PlayerAttackState : PlayerState
         attackCooldownCounter = player.AttackCoolDown;
         comboTimerCounter = player.ComboTimer;
         attackCounter++;
+
+        // use the Wall Check 
     }
 
     public override void LogicUpdate()

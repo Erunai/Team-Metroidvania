@@ -2910,6 +2910,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaitToRespawn: 0
+  player: {fileID: 0}
+  sitOnStart: 1
 --- !u!4 &1180017148
 Transform:
   m_ObjectHideFlags: 0
@@ -4940,11 +4942,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1955824678784910473, guid: 3a3738fa61e03bb4f987377294702e71, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 42.6
+      value: -6.42
       objectReference: {fileID: 0}
     - target: {fileID: 1955824678784910473, guid: 3a3738fa61e03bb4f987377294702e71, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.7
+      value: -3.53
       objectReference: {fileID: 0}
     - target: {fileID: 1955824678784910473, guid: 3a3738fa61e03bb4f987377294702e71, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4987,7 +4989,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1000527838}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 5411765036039578117, guid: 3a3738fa61e03bb4f987377294702e71, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a3738fa61e03bb4f987377294702e71, type: 3}

@@ -50,6 +50,11 @@ public class PauseManager : MonoBehaviour
         isPaused = false;
     }
 
+    public void Restart()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+    }
+
     public void QuitGame()
     {
         Debug.Log("Application Quit");
