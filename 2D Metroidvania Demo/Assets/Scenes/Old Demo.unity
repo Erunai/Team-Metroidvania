@@ -1388,8 +1388,8 @@ MonoBehaviour:
   yOffset: 1
   yMin: -0.25
   yMax: 19.46
-  xMin: 0
-  xMax: 0
+  xMin: -999
+  xMax: 999
 --- !u!1001 &530134859
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2910,6 +2910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WaitToRespawn: 0
+  scoreText: {fileID: 0}
   player: {fileID: 0}
   sitOnStart: 1
 --- !u!4 &1180017148
