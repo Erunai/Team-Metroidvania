@@ -141,6 +141,7 @@ public class PlayerController : MonoBehaviour
 
     public void Attack()
     {
+        // To be called by animation event 
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.transform.position, attackPointRadius, enemy);
         foreach (Collider2D enemyGameObject in hitEnemies)
         {

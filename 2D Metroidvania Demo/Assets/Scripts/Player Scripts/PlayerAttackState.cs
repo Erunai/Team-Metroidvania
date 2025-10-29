@@ -26,7 +26,7 @@ public class PlayerAttackState : PlayerState
         comboTimerCounter = player.ComboTimer;
         attackCounter++;
 
-        // use the Wall Check 
+        // -- Attack logic dictated by animation events
     }
 
     public override void LogicUpdate()
