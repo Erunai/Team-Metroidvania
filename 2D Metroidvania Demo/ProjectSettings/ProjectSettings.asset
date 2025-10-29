@@ -294,7 +294,10 @@ PlayerSettings:
   androidSymbolsSizeThreshold: 800
   m_BuildTargetIcons: []
   m_BuildTargetPlatformIcons: []
-  m_BuildTargetBatching: []
+  m_BuildTargetBatching:
+  - m_BuildTarget: Standalone
+    m_StaticBatching: 1
+    m_DynamicBatching: 0
   m_BuildTargetShaderSettings: []
   m_BuildTargetGraphicsJobs: []
   m_BuildTargetGraphicsJobMode: []
@@ -697,11 +700,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 55f698e7-aec7-4161-8464-da58b6dd2618
+  cloudProjectId: 82dcbbc8-c595-4167-aed8-0e299902e4ff
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: 2D Metroidvania Demo
-  organizationId: narlington
+  organizationId: lucas-653526
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
